@@ -45,7 +45,7 @@ def add_member():
             "Error": 'La edad no puede ser 0 o menor a 0'
         })
     new_member = jackson_family.add_member(body)
-    return jsonify(new_member)
+    return jsonify(new_member),200
 
 @app.route('/members/<int:member_id>', methods=['DELETE'])
 def delete_member(member_id):
@@ -54,8 +54,14 @@ def delete_member(member_id):
         return jsonify({"done": True}), 200
     return jsonify({"Error":"Usuario no encontrado"}), 404
 
-# @app.route('/members/<int:member_id>', methods = ['GET'])
-
+@app.route('/members/<int:member_id>', methods = ['GET'])
+def get_member (member_id):
+    member = jackson_family.get_member(member_id)
+    if member:
+        response_body = {
+        "family": member}
+        return jsonify(response_body), 200
+    return jsonify({"Error":"Usuario no encontrado"}), 404
 
 
 # This only runs if `$ python src/app.py` is executed
